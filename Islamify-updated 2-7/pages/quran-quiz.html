@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Quran Quiz</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css"/>
+    <style>
+       
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-title {
+            font-size: 2.5rem;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .quiz-description {
+            color: var(--content-color);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card i {
+            font-size: 2rem;
+            color: var(--icon-color);
+            margin-bottom: 1rem;
+        }
+
+        .category-card h3 {
+            color: var(--title-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            color: var(--content-color);
+            font-size: 0.9rem;
+        }
+
+        .quiz-question {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            color: var(--title-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .option {
+            background: var(--bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: var(--hover-bg);
+            border-color: var(--icon-color);
+        }
+
+        .option.selected {
+            background: var(--icon-color);
+            color: white;
+            border-color: var(--icon-color);
+        }
+
+        .option.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .quiz-button {
+            background: var(--icon-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-button:disabled {
+            background: var(--border-color);
+            cursor: not-allowed;
+        }
+
+        .quiz-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-text {
+            color: var(--content-color);
+            font-size: 0.9rem;
+        }
+
+        .quiz-results {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .results-title {
+            font-size: 2rem;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .score {
+            font-size: 3rem;
+            color: var(--icon-color);
+            margin-bottom: 1rem;
+        }
+
+        .results-message {
+            color: var(--content-color);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .restart-button {
+            background: var(--icon-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .restart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark mode styles */
+        .dark-theme {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --content-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --icon-color: #3498db;
+            --hover-bg: rgba(52, 152, 219, 0.2);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+       
+
+        .dark-theme .quiz-title {
+            color: var(--text-color);
+        }
+
+        .dark-theme .quiz-description {
+            color: var(--content-color);
+        }
+
+        .dark-theme .category-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .dark-theme .category-card:hover {
+            background: var(--hover-bg);
+        }
+
+        .dark-theme .category-card h3 {
+            color: var(--text-color);
+        }
+
+        .dark-theme .category-card p {
+            color: var(--content-color);
+        }
+
+        .dark-theme .quiz-question {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .dark-theme .question-text {
+            color: var(--text-color);
+        }
+
+        .dark-theme .option {
+            background: var(--bg-color);
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .option:hover {
+            background: var(--hover-bg);
+        }
+
+        .dark-theme .option.selected {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        .dark-theme .option.correct {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .dark-theme .option.incorrect {
+            background: #f44336;
+            color: white;
+        }
+
+        .dark-theme .progress-text {
+            color: var(--content-color);
+        }
+
+        .dark-theme .results-title {
+            color: var(--text-color);
+        }
+
+        .dark-theme .results-message {
+            color: var(--content-color);
+        }
+
+
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 1rem;
+            }
+
+            .quiz-title {
+                font-size: 2rem;
+            }
+
+            .quiz-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            /* Additional mobile responsiveness improvements */
+            .quiz-container {
+                max-width: 100%;
+                padding: 1rem;
+            }
+            
+            .quiz-title {
+                font-size: 1.8rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .quiz-description {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .category-card {
+                padding: 1.2rem;
+            }
+            
+            .quiz-question {
+                padding: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .option {
+                padding: 0.8rem;
+            }
+            
+            .quiz-button {
+                width: 100%;
+                padding: 0.7rem 1rem;
+            }
+            
+            .quiz-progress {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .results-title {
+                font-size: 1.8rem;
+            }
+            
+            .score {
+                font-size: 2.5rem;
+            }
+            
+            .results-message {
+                font-size: 1rem;
+            }
+            
+            .restart-button {
+                width: 100%;
+                padding: 0.8rem 1.5rem;
+            }
+        }
+       
+    </style>
+</head>
+<body>
+            <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h2 class="quiz-title">Quran Quiz</h2>
+                <p class="quiz-description">Test your knowledge of the Quran with these interactive quizzes</p>
+            </div>
+
+            <div class="quiz-categories">
+                <div class="category-card" onclick="startQuiz('surahs')">
+                    <i class="fas fa-book-quran"></i>
+                    <h3>Surah Names</h3>
+                    <p>Test your knowledge of surah names and their meanings</p>
+                </div>
+                <div class="category-card" onclick="startQuiz('verses')">
+                    <i class="fas fa-quote-right"></i>
+                    <h3>Famous Verses</h3>
+                    <p>Identify well-known verses from the Quran</p>
+                </div>
+                <div class="category-card" onclick="startQuiz('prophets')">
+                    <i class="fas fa-user"></i>
+                    <h3>Prophets</h3>
+                    <p>Questions about prophets mentioned in the Quran</p>
+                </div>
+                <div class="category-card" onclick="startQuiz('stories')">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Quranic Stories</h3>
+                    <p>Test your knowledge of stories mentioned in the Quran</p>
+                </div>
+            </div>
+
+            <div id="quiz-content" style="display: none;">
+                <div class="quiz-question">
+                    <div class="question-text" id="question-text"></div>
+                    <div class="options-container" id="options-container"></div>
+                </div>
+                <div class="quiz-controls">
+                    <div class="quiz-progress">
+                        <span class="progress-text" id="progress-text">Question 1 of 10</span>
+                    </div>
+                    <button class="quiz-button" id="next-button" onclick="nextQuestion()" disabled>Next Question</button>
+                </div>
+            </div>
+
+            <div id="quiz-results" style="display: none;">
+                <div class="quiz-results">
+                    <h2 class="results-title">Quiz Complete!</h2>
+                    <div class="score" id="final-score">0/10</div>
+                    <p class="results-message" id="results-message"></p>
+                    <button class="restart-button" onclick="restartQuiz()">Try Another Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const quizData = {
+            surahs: [
+                {
+                    question: "Which surah is known as 'The Opening'?",
+                    options: ["Al-Baqarah", "Al-Fatiha", "Al-Ikhlas", "Al-Mulk"],
+                    correct: 1
+                },
+                {
+                    question: "Which surah is called 'The Cow'?",
+                    options: ["Al-Fatiha", "Al-Baqarah", "Al-Imran", "An-Nisa"],
+                    correct: 1
+                },
+                {
+                    question: "Which surah is known as 'The Purity'?",
+                    options: ["Al-Falaq", "An-Nas", "Al-Ikhlas", "Al-Masad"],
+                    correct: 2
+                },
+                {
+                    question: "Which surah is called 'The Sovereignty'?",
+                    options: ["Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij"],
+                    correct: 0
+                },
+                {
+                    question: "Which surah is known as 'The Daybreak'?",
+                    options: ["Al-Falaq", "An-Nas", "Al-Ikhlas", "Al-Masad"],
+                    correct: 0
+                }
+            ],
+            verses: [
+                {
+                    question: "Which verse begins with 'Bismillah hir-Rahman nir-Rahim'?",
+                    options: ["Al-Fatiha:1", "Al-Baqarah:1", "An-Naml:30", "All of the above"],
+                    correct: 3
+                },
+                {
+                    question: "Which verse mentions 'Allah is the Light of the heavens and the earth'?",
+                    options: ["Al-Baqarah:255", "An-Nur:35", "Al-Fatiha:1", "Al-Ikhlas:1"],
+                    correct: 1
+                },
+                {
+                    question: "Which verse is known as Ayat al-Kursi?",
+                    options: ["Al-Baqarah:255", "Al-Fatiha:1", "Al-Ikhlas:1", "An-Nas:1"],
+                    correct: 0
+                },
+                {
+                    question: "Which verse mentions 'We have certainly created man in the best of stature'?",
+                    options: ["Al-Insan:1", "At-Tin:4", "Al-Baqarah:30", "Al-Mulk:1"],
+                    correct: 1
+                },
+                {
+                    question: "Which verse begins with 'Say: He is Allah, [who is] One'?",
+                    options: ["Al-Ikhlas:1", "Al-Falaq:1", "An-Nas:1", "Al-Fatiha:1"],
+                    correct: 0
+                }
+            ],
+            prophets: [
+                {
+                    question: "Which prophet is known as the 'Father of Prophets'?",
+                    options: ["Adam (AS)", "Ibrahim (AS)", "Nuh (AS)", "Musa (AS)"],
+                    correct: 1
+                },
+                {
+                    question: "Which prophet was given the title 'Khalilullah'?",
+                    options: ["Musa (AS)", "Ibrahim (AS)", "Isa (AS)", "Yusuf (AS)"],
+                    correct: 1
+                },
+                {
+                    question: "Which prophet was given the ability to speak to animals?",
+                    options: ["Sulaiman (AS)", "Yusuf (AS)", "Musa (AS)", "Isa (AS)"],
+                    correct: 0
+                },
+                {
+                    question: "Which prophet was known for his patience and is mentioned in Surah Yusuf?",
+                    options: ["Yusuf (AS)", "Ayyub (AS)", "Yunus (AS)", "Ibrahim (AS)"],
+                    correct: 0
+                },
+                {
+                    question: "Which prophet was given the title 'Kalimullah'?",
+                    options: ["Musa (AS)", "Ibrahim (AS)", "Isa (AS)", "Nuh (AS)"],
+                    correct: 0
+                }
+            ],
+            stories: [
+                {
+                    question: "Which story in the Quran mentions the people of the cave?",
+                    options: ["People of the Cave (Ashab al-Kahf)", "People of the Garden", "People of the Elephant", "People of the Ditch"],
+                    correct: 0
+                },
+                {
+                    question: "Which prophet's story involves a great flood?",
+                    options: ["Ibrahim (AS)", "Musa (AS)", "Nuh (AS)", "Yusuf (AS)"],
+                    correct: 2
+                },
+                {
+                    question: "Which story mentions a woman who was given a garden but became arrogant?",
+                    options: ["Story of Maryam", "Story of the People of the Garden", "Story of the Queen of Sheba", "Story of the Wife of Pharaoh"],
+                    correct: 1
+                },
+                {
+                    question: "Which prophet's story involves being swallowed by a whale?",
+                    options: ["Yusuf (AS)", "Yunus (AS)", "Musa (AS)", "Isa (AS)"],
+                    correct: 1
+                },
+                {
+                    question: "Which story mentions a man who was given knowledge from Allah and traveled with Musa (AS)?",
+                    options: ["Khidr (AS)", "Ibrahim (AS)", "Yusuf (AS)", "Sulaiman (AS)"],
+                    correct: 0
+                }
+            ]
+        };
+
+        let currentQuiz = null;
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        function startQuiz(category) {
+            currentQuiz = quizData[category];
+            currentQuestion = 0;
+            score = 0;
+            document.querySelector('.quiz-categories').style.display = 'none';
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('quiz-results').style.display = 'none';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = currentQuiz[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('progress-text').textContent = `Question ${currentQuestion + 1} of ${currentQuiz.length}`;
+            document.getElementById('next-button').disabled = true;
+        }
+
+        function selectOption(index) {
+            if (selectedOption !== null) return;
+            
+            selectedOption = index;
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            const correct = currentQuiz[currentQuestion].correct;
+            if (index === correct) {
+                options[index].classList.add('correct');
+                score++;
+            } else {
+                options[index].classList.add('incorrect');
+                options[correct].classList.add('correct');
+            }
+            
+            document.getElementById('next-button').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            selectedOption = null;
+            
+            if (currentQuestion < currentQuiz.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            
+            const percentage = (score / currentQuiz.length) * 100;
+            document.getElementById('final-score').textContent = `${score}/${currentQuiz.length}`;
+            
+            let message = '';
+            if (percentage >= 80) {
+                message = 'Excellent! You have a deep knowledge of the Quran.';
+            } else if (percentage >= 60) {
+                message = 'Good job! Keep learning and improving.';
+            } else {
+                message = 'Keep studying the Quran to improve your knowledge.';
+            }
+            
+            document.getElementById('results-message').textContent = message;
+        }
+
+        function restartQuiz() {
+            document.getElementById('quiz-results').style.display = 'none';
+            document.querySelector('.quiz-categories').style.display = 'grid';
+        }
+
+
+    </script>
+     <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../script.js"></script>
+
+</body>
+</html> 

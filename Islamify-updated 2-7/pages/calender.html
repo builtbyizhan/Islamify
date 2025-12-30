@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Islamic Calendar & Important Dates</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        .calendar-section {
+            background: var(--section-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .calendar-title {
+            color: var(--section-title);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto 2rem auto;
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--card-shadow);
+        }
+
+        .calendar-table th,
+        .calendar-table td {
+            padding: 0.7rem;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            color: var(--text-color);
+        }
+
+        .calendar-table th {
+            background: var(--icon-color);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .calendar-table td.today {
+            background: #ffe082;
+            font-weight: bold;
+            color: #333;
+            border-radius: 6px;
+        }
+
+        .important-dates-section {
+            background: var(--section-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--card-shadow);
+            padding: 2rem;
+            max-width: none;
+            width: 100%;
+        }
+
+        .important-dates-title {
+            color: var(--section-title);
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .important-dates-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .important-dates-list li {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--card-shadow);
+            padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1.5px solid var(--icon-color);
+            position: relative;
+            width: 100%;
+            min-height: 260px;
+        }
+
+        .important-dates-list li:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 8px 24px var(--card-shadow);
+        }
+
+        .important-date-icon {
+            font-size: 2.1rem;
+            color: var(--icon-color);
+            margin-bottom: 0.5rem;
+            align-self: flex-start;
+        }
+
+        .important-date-name {
+            color: var(--section-title);
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            width: 100%;
+        }
+
+        .date-badge {
+            background: var(--icon-color);
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 16px;
+            padding: 0.2rem 0.8rem;
+            margin-left: 0.5rem;
+            display: inline-block;
+        }
+
+        .important-date-desc {
+            color: var(--content-color);
+            font-size: 1rem;
+            margin-top: 0.3rem;
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .important-date-significance {
+            color: var(--section-title);
+            font-size: 0.98rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .important-date-fact {
+            color: var(--icon-color);
+            font-size: 0.92rem;
+            margin-top: 0.4rem;
+            font-style: italic;
+        }
+
+        .important-date-link {
+            margin-top: 0.7rem;
+            align-self: flex-start;
+            background: var(--icon-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.35rem 1.1rem;
+            font-size: 0.97rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--card-shadow);
+        }
+
+        .important-date-link:hover {
+            background: var(--section-title);
+            color: #fff;
+        }
+
+        /* Hero section styles for calendar page */
+        .calendar-hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 20vh;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--hero-bg) 0%, var(--card-bg) 100%);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .calendar-page .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .calendar-page .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+            line-height: 1.2;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .calendar-page .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0;
+            line-height: 1.5;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* End hero section styles */
+        /* Responsive styles for calendar page */
+        @media (max-width: 1024px) {
+            .important-dates-list {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calendar-hero-section {
+                padding: 1rem;
+                min-height: 10vh;
+            }
+
+            .calendar-page .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .calendar-page .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .calendar-section,
+            .important-dates-section {
+                padding: 1rem;
+            }
+
+            .calendar-title,
+            .important-dates-title {
+                font-size: 1.2rem;
+            }
+
+            .calendar-table th,
+            .calendar-table td {
+                padding: 0.4rem;
+                font-size: 0.9rem;
+            }
+
+            .important-dates-list li {
+                padding: 1rem 0.7rem;
+            }
+
+            .important-date-icon {
+                font-size: 1.5rem;
+            }
+
+            .important-date-name {
+                font-size: 1rem;
+            }
+
+            .date-badge {
+                font-size: 0.85rem;
+                padding: 0.15rem 0.6rem;
+            }
+
+            .important-date-desc {
+                font-size: 0.92rem;
+            }
+
+            .important-date-significance {
+                font-size: 0.93rem;
+            }
+
+            .important-date-link {
+                font-size: 0.92rem;
+                padding: 0.25rem 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .calendar-table th,
+            .calendar-table td {
+                padding: 0.2rem;
+                font-size: 0.8rem;
+            }
+
+            .calendar-section,
+            .important-dates-section {
+                padding: 0.5rem;
+            }
+
+            .important-dates-list li {
+                padding: 0.7rem 0.3rem;
+            }
+
+            .important-date-icon {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="calendar-page">
+    <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link active" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+        <section class="hero-section calendar-hero-section">
+            <div class="calendar-hero-bg"></div>
+            <div class="calendar-hero-flex">
+                <div class="hero-content fade-in-up">
+                    <h1 class="calendar-hero-title">Islamic Calendar</h1>
+                    <p class="calendar-hero-desc">A thoughtfully designed calendar to help you explore the Hijri months
+                        and the most significant dates in Islam.</p>
+                </div>
+                <div class="calendar-highlight-card fade-in-up">
+                    <div class="calendar-highlight-header" id="calendarHijriDate">Hijri Date</div>
+                    <div class="calendar-highlight-label">Week</div>
+                    <div class="calendar-highlight-week" id="calendarHijriWeek">--</div>
+                </div>
+            </div>
+        </section>
+        <section class="calendar-section fade-in">
+            <h3 class="calendar-title">Hijri Calendar - <span id="hijriMonthYear"></span></h3>
+            <div class="calendar-glass-bg fade-in-up">
+                <table class="calendar-table" id="hijriCalendar">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Calendar will be generated by JS -->
+                    </tbody>
+                </table>
+                <p style="text-align:center; color:var(--content-color); font-size:0.95rem; margin-top:1.2rem;">* The
+                    Islamic (Hijri) calendar is based on the lunar cycle and may differ by a day depending on moon
+                    sighting.</p>
+            </div>
+        </section>
+        <section class="important-dates-section fade-in">
+            <h3 class="important-dates-title">Major Islamic Dates</h3>
+            <ul class="important-dates-list">
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-moon"></i></div>
+                    <span class="important-date-name">Islamic New Year <span class="date-badge">1 Muharram</span></span>
+                    <div class="important-date-desc">The beginning of the Hijri year, commemorating the migration
+                        (Hijrah) of Prophet Muhammad (PBUH) from Makkah to Madinah.</div>
+                    <div class="important-date-significance">Significance: Marks the start of the Islamic lunar calendar
+                        and the Hijrah event.</div>
+                    <div class="important-date-fact">Did you know? The Islamic calendar is about 11 days shorter than
+                        the Gregorian calendar.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Islamic_New_Year" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-water"></i></div>
+                    <span class="important-date-name">Ashura <span class="date-badge">10 Muharram</span></span>
+                    <div class="important-date-desc">A significant day of fasting and reflection, marking the day Allah
+                        saved Moses (Musa) and the Israelites from Pharaoh.</div>
+                    <div class="important-date-significance">Significance: Observed by fasting; also commemorates the
+                        martyrdom of Husayn ibn Ali in Karbala.</div>
+                    <div class="important-date-fact">Did you know? Fasting on Ashura expiates the sins of the previous
+                        year.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Day_of_Ashura" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-star-and-crescent"></i></div>
+                    <span class="important-date-name">Mawlid an-Nabi <span class="date-badge">12 Rabi'
+                            al-awwal</span></span>
+                    <div class="important-date-desc">The birthday of Prophet Muhammad (PBUH), observed in many Muslim
+                        communities with prayers and gatherings.</div>
+                    <div class="important-date-significance">Significance: Celebrates the birth of the final Prophet of
+                        Islam.</div>
+                    <div class="important-date-fact">Did you know? Mawlid is celebrated differently across the Muslim
+                        world.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Mawlid" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-sun"></i></div>
+                    <span class="important-date-name">Start of Ramadan <span class="date-badge">1 Ramadan</span></span>
+                    <div class="important-date-desc">The beginning of the holy month of fasting, prayer, and reflection
+                        for Muslims worldwide.</div>
+                    <div class="important-date-significance">Significance: Start of the month of fasting, one of the
+                        Five Pillars of Islam.</div>
+                    <div class="important-date-fact">Did you know? Ramadan moves through all seasons over a 33-year
+                        cycle.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Ramadan" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-quran"></i></div>
+                    <span class="important-date-name">Laylat al-Qadr <span class="date-badge">27 Ramadan</span></span>
+                    <div class="important-date-desc">The Night of Power, believed to be when the Quran was first
+                        revealed. Worship on this night is better than a thousand months.</div>
+                    <div class="important-date-significance">Significance: The holiest night in Islam, prayers are
+                        highly rewarded.</div>
+                    <div class="important-date-fact">Did you know? The exact date of Laylat al-Qadr is not known, but it
+                        is most commonly observed on the 27th night.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Laylat_al-Qadr" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-cookie-bite"></i></div>
+                    <span class="important-date-name">Eid al-Fitr <span class="date-badge">1 Shawwal</span></span>
+                    <div class="important-date-desc">Festival of Breaking the Fast, celebrated at the end of Ramadan
+                        with prayers, feasts, and charity.</div>
+                    <div class="important-date-significance">Significance: Marks the end of Ramadan and a month of
+                        fasting.</div>
+                    <div class="important-date-fact">Did you know? Muslims are required to give Zakat al-Fitr before the
+                        Eid prayer.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Eid_al-Fitr" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-kaaba"></i></div>
+                    <span class="important-date-name">Hajj <span class="date-badge">8-13 Dhu al-Hijjah</span></span>
+                    <div class="important-date-desc">The annual pilgrimage to Makkah, required once in a lifetime for
+                        those who are able.</div>
+                    <div class="important-date-significance">Significance: One of the Five Pillars of Islam, a spiritual
+                        journey of a lifetime.</div>
+                    <div class="important-date-fact">Did you know? Over 2 million Muslims perform Hajj every year.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Hajj" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-mountain"></i></div>
+                    <span class="important-date-name">Day of Arafah <span class="date-badge">9 Dhu
+                            al-Hijjah</span></span>
+                    <div class="important-date-desc">The most important day of Hajj, a day of fasting and supplication.
+                    </div>
+                    <div class="important-date-significance">Significance: Standing at Arafah is the essence of Hajj;
+                        fasting is highly recommended for non-pilgrims.</div>
+                    <div class="important-date-fact">Did you know? The Prophet (PBUH) said, 'Hajj is Arafah.'</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Day_of_Arafah" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+                <li>
+                    <div class="important-date-icon"><i class="fas fa-drumstick-bite"></i></div>
+                    <span class="important-date-name">Eid al-Adha <span class="date-badge">10 Dhu
+                            al-Hijjah</span></span>
+                    <div class="important-date-desc">Festival of Sacrifice, commemorating Prophet Ibrahim's (Abraham)
+                        willingness to sacrifice his son for Allah.</div>
+                    <div class="important-date-significance">Significance: Celebrated with animal sacrifice, prayers,
+                        and charity.</div>
+                    <div class="important-date-fact">Did you know? The meat from the sacrifice is distributed among
+                        family, friends, and the needy.</div>
+                    <a class="important-date-link" href="https://en.wikipedia.org/wiki/Eid_al-Adha" target="_blank"
+                        rel="noopener">Learn More</a>
+                </li>
+            </ul>
+        </section>
+    </div>
+    <script>
+        // Hijri Calendar Generation
+        // Uses Umm al-Qura approximation for demonstration (not for fiqh purposes)
+        const hijriMonths = [
+            'Muharram', 'Safar',
+            "Rabi' al-awwal", "Rabi' al-thani",
+            'Jumada al-awwal', 'Jumada al-thani',
+            'Rajab', "Sha'ban", 'Ramadan', 'Shawwal', "Dhu al-Qi'dah", 'Dhu al-Hijjah'
+        ];
+        function gregorianToHijri(date) {
+            // Simple approximation for demonstration
+            // For accurate results, use a proper Hijri calendar API
+            const day = date.getDate();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            let m = month + 1, y = year;
+            if (m < 3) { y -= 1; m += 12; }
+            let a = Math.floor(y / 100);
+            let b = 2 - a + Math.floor(a / 4);
+            let jd = Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + day + b - 1524.5;
+            let islamic = jd - 1948439.5;
+            let yearH = Math.floor((30 * islamic + 10646) / 10631);
+            let monthH = Math.min(11, Math.ceil((islamic - 29 - (yearH - 1) * 354.367) / 29.5));
+            let dayH = Math.floor(jd - (29 + hijriToJD(yearH, monthH, 1)) + 1);
+            return { year: yearH, month: monthH, day: dayH };
+        }
+        function hijriToJD(year, month, day) {
+            return (
+                day +
+                Math.ceil(29.5 * (month - 1)) +
+                (year - 1) * 354 +
+                Math.floor((3 + 11 * year) / 30) +
+                1948439.5 - 1
+            );
+        }
+        function renderHijriCalendar() {
+            const today = new Date();
+            const hijri = gregorianToHijri(today);
+            const month = hijri.month;
+            const year = hijri.year;
+            document.getElementById('hijriMonthYear').textContent = `${hijriMonths[month]} ${year} AH`;
+            // Update highlight card
+            document.getElementById('calendarHijriDate').textContent = `${hijriMonths[month]} ${hijri.day} ${year} AH`;
+            document.getElementById('calendarHijriWeek').textContent = Math.ceil(hijri.day / 7);
+            // Find the first day of this Hijri month in Gregorian
+            let firstDay = today;
+            for (let i = 0; i < 30; i++) {
+                let d = new Date(today.getTime() - i * 86400000);
+                let h = gregorianToHijri(d);
+                if (h.day === 1 && h.month === month && h.year === year) {
+                    firstDay = d;
+                    break;
+                }
+            }
+            let calendar = [];
+            let week = [];
+            let started = false;
+            for (let i = 0; i < 42; i++) {
+                let d = new Date(firstDay.getTime() + i * 86400000);
+                let h = gregorianToHijri(d);
+                if (h.month !== month) break;
+                if (i === 0) {
+                    for (let j = 0; j < d.getDay(); j++) week.push('');
+                }
+                week.push({
+                    day: h.day,
+                    isToday: d.toDateString() === today.toDateString()
+                });
+                if (week.length === 7) {
+                    calendar.push(week);
+                    week = [];
+                }
+            }
+            if (week.length) calendar.push(week);
+            const tbody = document.querySelector('#hijriCalendar tbody');
+            tbody.innerHTML = '';
+            calendar.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    if (cell === '') {
+                        td.innerHTML = '';
+                    } else {
+                        td.textContent = cell.day;
+                        if (cell.isToday) td.classList.add('today');
+                    }
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', renderHijriCalendar);
+        function toggleNav() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('open');
+        }
+    </script>
+
+    <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script>
+    // --- Scroll-in Animations (like history.html) ---
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.gsap && window.ScrollTrigger) {
+            gsap.registerPlugin(ScrollTrigger);
+        }
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        // Hero section (staggered)
+        gsap.from(['.hero-content .calendar-hero-title', '.hero-content .calendar-hero-desc'], {
+            opacity: 0,
+            y: 40,
+            scale: 0.98,
+            duration: 0.9,
+            stagger: 0.18,
+            ease: 'power2.out',
+            delay: 0.1,
+            scrollTrigger: {
+                trigger: '.calendar-hero-section',
+                start: 'top 80%',
+            }
+        });
+        // Highlight card
+        gsap.from('.calendar-highlight-card', {
+            opacity: 0,
+            y: 40,
+            scale: 0.97,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.calendar-highlight-card',
+                start: 'top 85%',
+            }
+        });
+        // Calendar section
+        gsap.from('.calendar-section', {
+            opacity: 0,
+            y: 60,
+            scale: 0.97,
+            duration: 0.9,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.calendar-section',
+                start: 'top 85%',
+            }
+        });
+        // Important dates section
+        gsap.from('.important-dates-section', {
+            opacity: 0,
+            y: 60,
+            scale: 0.97,
+            duration: 0.9,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.important-dates-section',
+                start: 'top 85%',
+            }
+        });
+        // Stagger in each important date card
+        gsap.utils.toArray('.important-dates-list li').forEach((el, i) => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 60,
+                scale: 0.94,
+                duration: 0.8,
+                delay: i * 0.08,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 90%',
+                }
+            });
+        });
+        // Footer
+        gsap.from('.site-footer', {
+            opacity: 0,
+            y: 40,
+            scale: 0.97,
+            duration: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.site-footer',
+                start: 'top 95%',
+            }
+        });
+    });
+    </script>
+
+    <!-- FOOTER END -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+
+</body>
+
+</html>

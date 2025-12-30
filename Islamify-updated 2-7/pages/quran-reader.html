@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Quran Reader</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css"/>
+    <style>
+        /* Dark mode styles */
+        .dark-theme {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --content-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --icon-color: #5ddeb3;
+            --hover-bg: rgba(93, 222, 179, 0.12);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .hero-section {
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .dark-theme .hero-title,
+        .dark-theme .hero-subtitle {
+            color: var(--text-color);
+        }
+
+        .dark-theme .section {
+            background-color: var(--bg-color);
+        }
+
+        .dark-theme .reader-controls {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dark-theme .quran-content {
+            background-color: var(--card-bg) !important;
+            border-color: var(--border-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-theme .ayah-container {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border-color);
+        }
+
+        .dark-theme .arabic-text {
+            color: #ffffff;
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .dark-theme .translation,
+        .dark-theme .transliteration {
+            color: var(--content-color);
+        }
+
+        .dark-theme .surah-selector,
+        .dark-theme .option-toggle,
+        .dark-theme .nav-button {
+            background: var(--card-bg);
+            border-color: var(--icon-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .surah-selector option {
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .dark-theme .option-toggle.active {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        /* Hero section styles */
+        .hero-section {
+            min-height: 20vh;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 15vh;
+                padding: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .container {
+                margin-top: 120px !important;
+                padding: 0 1rem;
+            }
+            
+            .reader-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .display-options {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Existing styles */
+        .quran-reader {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .reader-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .surah-selector {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: 2px solid var(--icon-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .display-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .option-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: var(--card-bg);
+            border: 2px solid var(--icon-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .option-toggle.active {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        .quran-content {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid #e0e0e0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .ayah-container {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .ayah-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--icon-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .arabic-text {
+            font-size: 2rem;
+            text-align: right;
+            line-height: 1.8;
+            margin: 1rem 0;
+            font-family: 'Amiri', serif;
+            color: var(--text-color);
+        }
+
+        .translation {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+            color: var(--content-color);
+        }
+
+        .transliteration {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0.5rem 0;
+            color: var(--content-color);
+            font-style: italic;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .nav-button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: 2px solid var(--icon-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button:hover {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .reader-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .arabic-text {
+                font-size: 1.5rem;
+            }
+
+            .translation {
+                font-size: 1rem;
+            }
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 3rem;
+            color: var(--content-color);
+        }
+
+        .loading-indicator i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--icon-color);
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 3rem;
+            color: #e74c3c;
+        }
+
+        .error-message i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-details {
+            font-size: 0.9rem;
+            color: var(--content-color);
+        }
+
+        .surah-info {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .surah-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+        }
+
+        .surah-info p {
+            color: var(--content-color);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .surah-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+        .surah-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px var(--card-shadow);
+            padding: 1.1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border: 1.5px solid var(--icon-color);
+            transition: box-shadow 0.2s, border-color 0.2s, background 0.3s;
+            position: relative;
+            text-decoration: none;
+        }
+        .surah-card:hover, .surah-card:focus {
+            background: var(--card-bg);
+            color: inherit;
+            border-color: var(--title-color);
+            box-shadow: 0 6px 24px var(--card-shadow);
+            outline: none;
+        }
+        .surah-number-diamond {
+            width: 44px;
+            height: 44px;
+            background: var(--icon-color);
+            color: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px var(--card-shadow);
+            transform: rotate(45deg);
+            margin-right: 1.2rem;
+            flex-shrink: 0;
+        }
+        .surah-number-diamond span {
+            transform: rotate(-45deg);
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        .surah-card-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .surah-card-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.2rem;
+        }
+        .surah-english {
+            font-size: 1.13rem;
+            font-weight: 700;
+            color: var(--title-color);
+            transition: color 0.2s;
+        }
+        .surah-meaning {
+            color: var(--content-color);
+            font-size: 0.97rem;
+            transition: color 0.2s;
+        }
+        .surah-card-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.2rem;
+            min-width: 120px;
+        }
+        .surah-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.45rem;
+            color: var(--icon-color);
+            text-align: right;
+            direction: rtl;
+            transition: color 0.2s;
+        }
+        .surah-ayahs {
+            color: var(--content-color);
+            font-size: 0.95rem;
+            text-align: right;
+            transition: color 0.2s;
+        }
+        .surah-card:hover .surah-english,
+        .surah-card:focus .surah-english,
+        .surah-card:hover .surah-arabic,
+        .surah-card:focus .surah-arabic,
+        .surah-card:hover .surah-meaning,
+        .surah-card:focus .surah-meaning,
+        .surah-card:hover .surah-ayahs,
+        .surah-card:focus .surah-ayahs {
+            color: inherit;
+        }
+        @media (max-width: 700px) {
+            .surah-list {
+                gap: 0.7rem;
+            }
+            .surah-card-main {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+            .surah-card-right {
+                align-items: flex-start;
+                min-width: 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="quran-page">
+           <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">Quran Reader</h2>
+                <p class="hero-subtitle">Browse all 114 Surahs of the Holy Quran with translation</p>
+            </div>
+        </div>
+        <section class="section">
+            <div class="surah-list" id="surahList">
+                <!-- Surah cards will be loaded here -->
+                    </div>
+        </section>
+                    </div>
+    <script>
+
+
+        // Fetch Surah list and translations (Arabic + English)
+        document.addEventListener('DOMContentLoaded', function() {
+            const surahList = document.getElementById('surahList');
+            surahList.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--content-color)"><i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--icon-color)"></i><br>Loading Surahs...</div>';
+            Promise.all([
+                fetch('https://api.alquran.cloud/v1/quran/en.asad').then(res => res.json()),
+                fetch('https://api.alquran.cloud/v1/quran/ar.alafasy').then(res => res.json())
+            ]).then(([enData, arData]) => {
+                const enSurahs = enData.data.surahs;
+                const arSurahs = arData.data.surahs;
+                surahList.innerHTML = enSurahs.map((surah, i) => {
+                    const arSurah = arSurahs[i];
+                    return `
+                        <a class="surah-card" href="quran-surah.html?surah=${surah.number}">
+                            <div class="surah-number-diamond">
+                                <span>${surah.number}</span>
+                    </div>
+                            <div class="surah-card-main">
+                                <div class="surah-card-left">
+                                    <div class="surah-english">${surah.englishName}</div>
+                                    <div class="surah-meaning">${surah.englishNameTranslation}</div>
+                        </div>
+                                <div class="surah-card-right">
+                                    <div class="surah-arabic">${arSurah.name}</div>
+                                    <div class="surah-ayahs">${surah.ayahs.length} Ayahs</div>
+                        </div>
+                    </div>
+                        </a>
+                    `;
+                }).join('');
+            });
+        });
+
+         function toggleNav() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('open');
+        }
+    </script>
+    <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+
+</body>
+</html> 

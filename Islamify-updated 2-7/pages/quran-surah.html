@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Surah</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/quran/quran.com-frontend/public/fonts/pdms-saleem-quranfont.css"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem 3rem 1rem;
+            margin-top: 110px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--icon-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--title-color);
+            text-decoration: underline;
+        }
+
+        .surah-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .surah-header h2 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--title-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .surah-header .surah-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 2.2rem;
+            color: var(--icon-color);
+            display: block;
+            margin-top: 0.2rem;
+        }
+
+        .surah-header p {
+            color: var(--content-color);
+            font-size: 1.1rem;
+        }
+
+        .ayat-list {
+            margin-top: 2rem;
+        }
+
+        .ayah-block {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px var(--card-shadow);
+            padding: 1.5rem 1.2rem;
+            margin-bottom: 1.3rem;
+            border-left: 4px solid var(--icon-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .ayah-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            color: var(--icon-color);
+            text-align: right;
+            direction: rtl;
+        }
+
+        .ayah-translation {
+            color: var(--content-color);
+            font-size: 1.08rem;
+            text-align: left;
+        }
+
+        .ayah-number {
+            background: var(--icon-color);
+            color: var(--card-bg);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: var(--icon-color);
+            color: var(--card-bg);
+            border: none;
+            border-radius: 999px;
+            padding: 0.35rem 1.1rem;
+            font-weight: 600;
+            font-size: 0.97rem;
+            margin-bottom: 0;
+            margin-right: 1.1rem;
+            margin-left: 0;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--card-shadow);
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.18s;
+            min-width: unset;
+            width: auto;
+        }
+
+        .back-btn:hover,
+        .back-btn:focus {
+            background: var(--title-color);
+            color: var(--card-bg);
+            box-shadow: 0 4px 18px var(--card-shadow);
+            transform: scale(1.06);
+            outline: none;
+        }
+
+        .surah-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1.2rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .surah-header-row h2 {
+            margin-bottom: 0;
+        }
+
+        .surah-arabic,
+        .ayah-arabic {
+            font-family: 'PDMS Saleem QuranFont', 'IndoPak', 'Amiri', serif;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 1rem 0.2rem 2rem 0.2rem;
+                margin-top: 90px;
+            }
+
+            .surah-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .surah-header .surah-arabic {
+                font-size: 1.3rem;
+            }
+
+            .ayah-arabic {
+                font-size: 1.1rem;
+            }
+
+            .back-btn {
+                width: auto;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .surah-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+        <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="surah-header-row">
+            <button class="back-btn" onclick="window.location.href='quran-reader.html'">
+                &larr; Back to Surah List
+            </button>
+        </div>
+        <div class="surah-header" id="surahHeader">
+            <!-- Surah name, arabic, and info will be loaded here -->
+        </div>
+        <div class="ayat-list" id="ayatList">
+            <!-- Ayat will be loaded here -->
+        </div>
+    </div>
+    <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+    <script>
+        // Get surah number from query param
+        function getSurahNum() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('surah') || '1';
+        }
+        const surahNum = getSurahNum();
+        const surahHeader = document.getElementById('surahHeader');
+        const ayatList = document.getElementById('ayatList');
+        surahHeader.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--content-color)"><i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--icon-color)"></i><br>Loading Surah...</div>';
+        ayatList.innerHTML = '';
+        Promise.all([
+            fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/en.asad`).then(res => res.json()),
+            fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/ar.alafasy`).then(res => res.json())
+        ]).then(([enData, arData]) => {
+            const surah = enData.data;
+            const arSurah = arData.data;
+            surahHeader.innerHTML = `
+            <h2>${surah.englishName} <span class="surah-arabic">${arSurah.name}</span></h2>
+            <p>${surah.englishNameTranslation} • ${surah.ayahs.length} Ayahs</p>
+        `;
+            ayatList.innerHTML = surah.ayahs.map((ayah, i) => `
+            <div class="ayah-block">
+                <span class="ayah-number">${ayah.numberInSurah}</span>
+                <div class="ayah-arabic">${arSurah.ayahs[i].text}</div>
+                <div class="ayah-translation">${ayah.text}</div>
+            </div>
+        `).join('');
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+
+</body>
+
+</html>

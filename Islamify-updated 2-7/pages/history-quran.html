@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compilation of the Quran - Islamic History</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css"/>
+    <style>
+        .history-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(52, 152, 219, 0.08);
+            padding: 2.5rem 2rem 2rem 2rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .history-hero img {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(44, 62, 80, 0.10);
+            margin-bottom: 1.5rem;
+        }
+        .history-hero .event-title {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: var(--title-color);
+            margin-bottom: 0.5rem;
+        }
+        .history-hero .event-date {
+            color: var(--icon-color);
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+        }
+        [data-theme="dark"] .history-hero {
+            background: linear-gradient(135deg, #23272f 0%, #181c22 100%);
+            box-shadow: 0 8px 32px rgba(44, 62, 80, 0.25);
+        }
+        [data-theme="dark"] .history-hero .event-title {
+            color: #fff;
+        }
+        [data-theme="dark"] .history-hero .event-date {
+            color: #4a9eff;
+        }
+        [data-theme="dark"] .history-hero p {
+            color: #b0b0b0 !important;
+        }
+        .fact-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+        .fact-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--card-shadow);
+            padding: 1.2rem 1.5rem;
+            min-width: 220px;
+            max-width: 320px;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .fact-card i {
+            color: var(--icon-color);
+            font-size: 1.7rem;
+            margin-top: 0.2rem;
+        }
+        .fact-card .fact-content {
+            color: var(--content-color);
+        }
+        .sources-section {
+            background: var(--bg-color);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            margin-top: 2.5rem;
+            box-shadow: 0 1px 4px var(--card-shadow);
+        }
+        .sources-section h4 {
+            color: var(--icon-color);
+            margin-bottom: 0.7rem;
+        }
+        @media (max-width: 700px) {
+            .history-hero { padding: 1.2rem 0.5rem; }
+            .fact-highlights { flex-direction: column; gap: 1rem; }
+            .fact-card { min-width: unset; max-width: unset; }
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.9rem 2rem;
+            background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.08rem;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(52,152,219,0.10);
+            margin: 2.2rem auto 0 auto;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .back-button i {
+            font-size: 1.1rem;
+        }
+        .back-button:hover {
+            background: linear-gradient(90deg, #217dbb 0%, #3498db 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .badr-hero-section {
+            background: linear-gradient(120deg, var(--hero-bg, var(--section-bg)) 60%, var(--card-bg) 100%);
+            color: var(--text-color);
+            padding: 3.5rem 1rem 2.5rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .badr-hero-section .hero-bg-pattern {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="2" fill="%23fff2"/><circle cx="120" cy="80" r="1.5" fill="%23fff1"/></svg>');
+            opacity: 0.13;
+            pointer-events: none;
+        }
+        .badr-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .badr-hero-title {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--icon-color);
+            margin-bottom: 0.7rem;
+        }
+        .badr-hero-date {
+            color: var(--title-color);
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+        }
+        .badr-hero-quote {
+            font-style: italic;
+            color: var(--content-color);
+            font-size: 1.1rem;
+            border-left: 4px solid var(--icon-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0 0 0;
+        }
+        .badr-hero-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px 0 var(--card-shadow), 0 2px 12px var(--icon-color)22;
+            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: var(--card-bg);
+        }
+        @media (max-width: 700px) {
+            .badr-hero-img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        .badr-divider {
+            width: 100%;
+            height: 36px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto -18px auto;
+        }
+        .badr-divider svg {
+            width: 100%;
+            height: 36px;
+            display: block;
+        }
+        .badr-story-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px var(--card-shadow);
+            margin: 2.2rem auto;
+            padding: 2.7rem 2.2rem 2.2rem 2.2rem;
+            max-width: 950px;
+            position: relative;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(60px) scale(0.96);
+            transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .badr-story-section.alt {
+            background: linear-gradient(120deg, var(--section-bg) 80%, var(--card-bg) 100%);
+            box-shadow: 0 8px 32px var(--card-shadow);
+        }
+        .badr-story-section.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .badr-story-section h2 {
+            font-family: 'Amiri', serif;
+            color: var(--title-color);
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-bottom: 0.7rem;
+            border-left: 5px solid var(--icon-color);
+            padding-left: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .badr-story-section p {
+            color: var(--content-color);
+            font-size: 1.13rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+        .badr-story-icon {
+            font-size: 2.6rem;
+            color: var(--icon-color);
+            margin-bottom: 1.1rem;
+            text-align: center;
+            filter: drop-shadow(0 2px 8px var(--icon-color)22);
+        }
+        .badr-img {
+            width: 100%;
+            max-width: 420px;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px var(--card-shadow);
+            margin: 1.2rem auto 1.5rem auto;
+            display: block;
+        }
+        .badr-callout {
+            background: linear-gradient(90deg, var(--icon-color) 10%, var(--title-color) 100%);
+            color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.1rem 1.3rem;
+            font-size: 1.13rem;
+            font-style: italic;
+            margin: 1.2rem 0 1.2rem 0;
+            box-shadow: 0 2px 8px var(--card-shadow);
+            border-left: 6px solid var(--icon-color);
+        }
+        .styled-sources {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 2px 12px var(--card-shadow);
+            margin: 2.5rem auto 1.5rem auto;
+            padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+            max-width: 700px;
+            border-left: 6px solid var(--icon-color);
+        }
+        .sources-header {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 1.1rem;
+        }
+        .sources-header h4 {
+            color: var(--title-color);
+            font-size: 1.18rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .sources-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sources-list {
+            color: var(--content-color);
+            font-size: 1.03rem;
+            padding-left: 1.2rem;
+            margin: 0;
+        }
+        .sources-list li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="story-page">
+       <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+    <div class="container story-page">
+        <section class="badr-hero-section">
+            <div class="hero-bg-pattern"></div>
+            <div class="badr-hero-content">
+                <img class="badr-hero-img" src="../IMAGE/9.jpg" alt="Quran Compilation Vector">
+                <div class="badr-hero-title">Compilation of the Quran</div>
+                <div class="badr-hero-date"><i class="fas fa-calendar-alt"></i> 632-650 CE &mdash; Madinah, Arabia</div>
+                <blockquote class="badr-hero-quote">“Indeed, it is We who sent down the Quran and indeed, We will be its guardian.” <span>- Quran 15:9</span></blockquote>
+            </div>
+        </section>
+        <div class="badr-divider"><svg viewBox="0 0 120 36" preserveAspectRatio="none"><path d="M0,18 Q60,36 120,18 Q60,0 0,18 Z" fill="var(--section-bg)" opacity="0.18"/></svg></div>
+        <section class="badr-story-section fade-in" id="event">
+            <div class="badr-story-icon"><i class="fas fa-book"></i></div>
+            <h2>The Event</h2>
+            <p>After the Prophet's (PBUH) passing, the Quran was compiled into a single manuscript during the caliphate of Abu Bakr (RA) and later standardized by Uthman (RA) to preserve its authenticity.</p>
+            <div class="badr-callout">“The Quran was preserved through both memorization and writing.”</div>
+        </section>
+        <div class="badr-divider"><svg viewBox="0 0 120 36" preserveAspectRatio="none"><path d="M0,18 Q60,36 120,18 Q60,0 0,18 Z" fill="var(--icon-color)" opacity="0.10"/></svg></div>
+        <section class="badr-story-section fade-in alt" id="significance">
+            <div class="badr-story-icon"><i class="fas fa-user-tie"></i></div>
+            <h2>Significance</h2>
+            <p>The compilation ensured the Quran would remain unchanged and accessible to all Muslims, uniting the ummah on a single text.</p>
+            <div class="badr-callout">“The Quran is a unifying force for the Muslim world.”</div>
+        </section>
+        <div class="badr-divider"><svg viewBox="0 0 120 36" preserveAspectRatio="none"><path d="M0,18 Q60,36 120,18 Q60,0 0,18 Z" fill="var(--section-bg)" opacity="0.18"/></svg></div>
+        <section class="badr-story-section fade-in" id="aftermath">
+            <div class="badr-story-icon"><i class="fas fa-scroll"></i></div>
+            <h2>Aftermath</h2>
+            <p>The standardized Quran was distributed to major Islamic cities, and all other versions were destroyed to prevent discrepancies.</p>
+            <div class="badr-callout">“The Quran remains unchanged to this day.”</div>
+        </section>
+        <div class="sources-section styled-sources">
+            <div class="sources-header">
+                <span class="sources-icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="4" width="20" height="20" rx="5" fill="var(--icon-color)" opacity="0.13"/>
+                        <rect x="8" y="8" width="12" height="12" rx="3" fill="var(--icon-color)"/>
+                        <rect x="12" y="12" width="4" height="4" rx="1" fill="var(--card-bg)"/>
+                    </svg>
+                </span>
+                <h4>Sources</h4>
+            </div>
+            <ul class="sources-list">
+                <li>Quran, Surah Al-Hijr (15:9)</li>
+                <li>Sahih Bukhari, Book 61, Hadith 509</li>
+                <li>Martin Lings, "Muhammad: His Life Based on the Earliest Sources"</li>
+            </ul>
+        </div>
+    </div>
+    <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+    <script>
+        
+        // --- Quran Compilation Story Section Animations ---
+        document.addEventListener('DOMContentLoaded', function () {
+            // Accessibility: Respect prefers-reduced-motion
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                document.querySelectorAll('.badr-story-section').forEach(sec => sec.classList.add('visible'));
+                return;
+            }
+            // Animate each story section on scroll
+            const sections = document.querySelectorAll('.badr-story-section');
+            const revealOnScroll = () => {
+                const triggerBottom = window.innerHeight * 0.88;
+                sections.forEach(sec => {
+                    const boxTop = sec.getBoundingClientRect().top;
+                    if (boxTop < triggerBottom && !sec.classList.contains('visible')) {
+                        sec.classList.add('visible');
+                        // Staggered animation for icon, heading, and text
+                        const icon = sec.querySelector('.badr-story-icon');
+                        const heading = sec.querySelector('h2');
+                        const text = sec.querySelectorAll('p, .badr-callout');
+                        if (icon) {
+                            icon.style.opacity = 0;
+                            icon.style.transform = 'scale(0.7)';
+                        }
+                        if (heading) {
+                            heading.style.opacity = 0;
+                            heading.style.transform = 'translateY(20px)';
+                        }
+                        text.forEach(t => {
+                            t.style.opacity = 0;
+                            t.style.transform = 'translateY(20px)';
+                        });
+                        setTimeout(() => {
+                            if (icon) {
+                                icon.style.transition = 'opacity 0.5s, transform 0.5s';
+                                icon.style.opacity = 1;
+                                icon.style.transform = 'scale(1)';
+                            }
+                        }, 100);
+                        setTimeout(() => {
+                            if (heading) {
+                                heading.style.transition = 'opacity 0.5s, transform 0.5s';
+                                heading.style.opacity = 1;
+                                heading.style.transform = 'translateY(0)';
+                            }
+                        }, 300);
+                        text.forEach((t, i) => setTimeout(() => {
+                            t.style.transition = 'opacity 0.5s, transform 0.5s';
+                            t.style.opacity = 1;
+                            t.style.transform = 'translateY(0)';
+                        }, 500 + i * 120));
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../script.js"></script>
+
+</body>
+</html> 

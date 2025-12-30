@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - I'm Feeling</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Noto+Naskh+Arabic:wght@700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        .feelings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feeling-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feeling-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .feeling-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feeling-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--icon-color);
+        }
+
+        .feeling-card h3 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .dua-display {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 0.5rem;
+            border-left: 4px solid var(--icon-color);
+        }
+
+        .dua-display.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dua-text {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            direction: rtl;
+            line-height: 2;
+            color: var(--text-color);
+            font-family: 'Noto Naskh Arabic', 'Amiri', serif;
+        }
+
+        .dua-translation {
+            color: var(--content-color);
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .dua-reference {
+            color: var(--icon-color);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-container {
+            margin: 1.5rem auto;
+            text-align: center;
+            position: relative;
+            max-width: 600px;
+            padding: 0 1rem;
+        }
+
+        .search-input {
+            padding: 0.8rem 1.2rem 0.8rem 3.5rem;
+            width: 100%;
+            border: 2px solid var(--icon-color);
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--content-color);
+            opacity: 0.7;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--icon-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .search-container::before {
+            content: '\f002';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--icon-color);
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .search-container::before {
+                left: 1.8rem;
+            }
+
+            .search-input {
+                padding: 0.7rem 1rem 0.7rem 3.2rem;
+            }
+        }
+
+        .active-card {
+            background: linear-gradient(120deg, #23272f 60%, #3a3f4b 100%) !important;
+            border: 2.5px solid var(--icon-color) !important;
+            box-shadow: 0 6px 24px rgba(44, 62, 80, 0.18) !important;
+            color: #fff !important;
+            transform: scale(1.04);
+        }
+
+        [data-theme="dark"] .active-card {
+            background: linear-gradient(120deg, #181c22 60%, #23272f 100%) !important;
+            border: 2.5px solid #4a9eff !important;
+            color: #fff !important;
+        }
+
+        
+
+        .feelings-page .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 20vh;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--hero-bg) 0%, var(--card-bg) 100%);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .feelings-page .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .feelings-page .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+            line-height: 1.2;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feelings-page .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0;
+            line-height: 1.5;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+
+
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .content-section {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-section {
+                padding: 0.5rem;
+            }
+        }
+
+        .dua-slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .dua-slider-arrow {
+            background: rgba(74, 158, 255, 0.12);
+            border: none;
+            border-radius: 50%;
+            width: 2.2rem;
+            height: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--icon-color);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(74, 158, 255, 0.08);
+        }
+
+        .dua-slider-arrow:hover {
+            background: var(--icon-color);
+            color: var(--card-bg);
+        }
+
+        .dua-slider-index {
+            font-size: 1rem;
+            color: var(--icon-color);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .dua-display {
+            position: relative;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(74, 158, 255, 0.10);
+            border-left: 5px solid var(--icon-color);
+            margin-top: 0.7rem;
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            transition: box-shadow 0.3s, background 0.3s;
+            z-index: 2;
+        }
+
+        .dua-display.show {
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dua-text {
+            font-size: 1.7rem;
+            color: var(--title-color);
+            font-family: 'Noto Naskh Arabic', 'Amiri', serif;
+            margin-bottom: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .dua-translation {
+            color: var(--content-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dua-reference {
+            color: var(--icon-color);
+            font-size: 0.97rem;
+        }
+
+        @media (max-width: 600px) {
+            .dua-display {
+                padding: 1.1rem 0.7rem 1rem 0.7rem;
+            }
+        }
+
+        [data-theme="dark"] .dua-display {
+            background: rgba(35, 39, 47, 0.85);
+            color: #e0e0e0;
+            box-shadow: 0 4px 24px rgba(74, 158, 255, 0.18);
+        }
+
+        [data-theme="dark"] .dua-text {
+            color: #fff;
+        }
+
+        [data-theme="dark"] .dua-translation {
+            color: #b0b0b0;
+        }
+
+        [data-theme="dark"] .dua-reference {
+            color: #4a9eff;
+        }
+
+        /* Scroll-in animation for feeling cards */
+        .fade-in-up-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-in-up-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="feelings-page">
+        <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link active" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container" style="margin-top: 80px; padding-top: 20px;">
+        <section class="hero-section feelings-hero">
+            <div class="feelings-hero-bg"></div>
+            <div class="feelings-hero-motif">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="40" cy="40" r="36" stroke="#4a9eff" stroke-width="3" fill="none" />
+                    <path d="M40 12 L44 32 L68 32 L48 44 L56 68 L40 54 L24 68 L32 44 L12 32 L36 32 Z" fill="#4a9eff"
+                        fill-opacity="0.08" stroke="#4a9eff" stroke-width="2" />
+                </svg>
+            </div>
+            <div class="hero-content">
+                <h2 class="hero-title">I'm Feeling...</h2>
+                <p class="hero-subtitle">Find the perfect dua for your current state of mind</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="feelingSearch" placeholder="Search for a feeling...">
+            </div>
+            <div class="feelings-grid">
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="anxious">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Anxious</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="grateful">
+                        <i class="fas fa-hands-praying"></i>
+                        <h3>Grateful</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="sad">
+                        <i class="fas fa-face-sad-tear"></i>
+                        <h3>Sad</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="happy">
+                        <i class="fas fa-face-smile"></i>
+                        <h3>Happy</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="stressed">
+                        <i class="fas fa-brain"></i>
+                        <h3>Stressed</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="hopeful">
+                        <i class="fas fa-sun"></i>
+                        <h3>Hopeful</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="afraid">
+                        <i class="fas fa-ghost"></i>
+                        <h3>Afraid</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="lonely">
+                        <i class="fas fa-user"></i>
+                        <h3>Lonely</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="angry">
+                        <i class="fas fa-face-angry"></i>
+                        <h3>Angry</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="tired">
+                        <i class="fas fa-moon"></i>
+                        <h3>Tired</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="confused">
+                        <i class="fas fa-question"></i>
+                        <h3>Confused</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="peaceful">
+                        <i class="fas fa-dove"></i>
+                        <h3>Peaceful</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="worried">
+                        <i class="fas fa-face-frown-open"></i>
+                        <h3>Worried</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="excited">
+                        <i class="fas fa-face-grin-stars"></i>
+                        <h3>Excited</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="guilty">
+                        <i class="fas fa-hand"></i>
+                        <h3>Guilty</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="proud">
+                        <i class="fas fa-medal"></i>
+                        <h3>Proud</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="ashamed">
+                        <i class="fas fa-face-flushed"></i>
+                        <h3>Ashamed</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="insecure">
+                        <i class="fas fa-shield"></i>
+                        <h3>Insecure</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="overwhelmed">
+                        <i class="fas fa-cloud"></i>
+                        <h3>Overwhelmed</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="content">
+                        <i class="fas fa-face-smile-beam"></i>
+                        <h3>Content</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="disappointed">
+                        <i class="fas fa-face-frown"></i>
+                        <h3>Disappointed</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="nervous">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Nervous</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="relieved">
+                        <i class="fas fa-face-grin-squint"></i>
+                        <h3>Relieved</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="regretful">
+                        <i class="fas fa-clock-rotate-left"></i>
+                        <h3>Regretful</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="inspired">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Inspired</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="determined">
+                        <i class="fas fa-fist-raised"></i>
+                        <h3>Determined</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="patient">
+                        <i class="fas fa-hourglass-half"></i>
+                        <h3>Patient</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="thankful">
+                        <i class="fas fa-hands-holding"></i>
+                        <h3>Thankful</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="blessed">
+                        <i class="fas fa-star"></i>
+                        <h3>Blessed</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="motivated">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Motivated</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="betrayed">
+                        <i class="fas fa-user-slash"></i>
+                        <h3>Betrayed</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="lost">
+                        <i class="fas fa-compass"></i>
+                        <h3>Lost</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="loved">
+                        <i class="fas fa-heart"></i>
+                        <h3>Loved</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="rejected">
+                        <i class="fas fa-ban"></i>
+                        <h3>Rejected</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekingforgiveness">
+                        <i class="fas fa-undo"></i>
+                        <h3>Seeking Forgiveness</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekingguidance">
+                        <i class="fas fa-map-signs"></i>
+                        <h3>Seeking Guidance</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekingknowledge">
+                        <i class="fas fa-book-open"></i>
+                        <h3>Seeking Knowledge</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="hardship">
+                        <i class="fas fa-mountain"></i>
+                        <h3>Facing Hardship</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="injustice">
+                        <i class="fas fa-balance-scale"></i>
+                        <h3>Facing Injustice</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="temptation">
+                        <i class="fas fa-fire"></i>
+                        <h3>Facing Temptation</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekingpatience">
+                        <i class="fas fa-hourglass-end"></i>
+                        <h3>Seeking Patience</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekingsuccess">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Seeking Success</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekinghealing">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Seeking Healing</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="protectionfamily">
+                        <i class="fas fa-users"></i>
+                        <h3>Protection for Family</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="repentant">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Repentant</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekingmercy">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <h3>Seeking Mercy</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="protectionevil">
+                        <i class="fas fa-shield-virus"></i>
+                        <h3>Protection from Evil</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="seekingrizq">
+                        <i class="fas fa-coins"></i>
+                        <h3>Seeking Rizq</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="guidancefamily">
+                        <i class="fas fa-people-arrows"></i>
+                        <h3>Guidance for Family</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="relieffromdebt">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <h3>Relief from Debt</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="goodend">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <h3>Seeking a Good End</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="steadfastness">
+                        <i class="fas fa-anchor"></i>
+                        <h3>Seeking Steadfastness</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="barakah">
+                        <i class="fas fa-gift"></i>
+                        <h3>Seeking Barakah</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+                <div class="feeling-container">
+                    <div class="feeling-card fade-in-up-scroll" data-feeling="forgivenessparents">
+                        <i class="fas fa-user-friends"></i>
+                        <h3>Forgiveness for Parents</h3>
+                    </div>
+                    <div class="dua-display glass-bg">
+                        <div class="dua-text"></div>
+                        <div class="dua-translation"></div>
+                        <div class="dua-reference"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section dua-section" style="display: none;">
+            <div class="dua-content">
+                <h3 id="duaTitle"></h3>
+                <p id="duaArabic" class="arabic"></p>
+                <p id="duaTranslation"></p>
+                <p id="duaReference" class="reference"></p>
+            </div>
+        </section>
+    </div>
+
+
+    <script>
+        const feelings = {
+            anxious: [
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", translation: "O Allah, I seek refuge in You from anxiety and sorrow", reference: "Sahih al-Bukhari 6369" },
+                { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ", translation: "Allah is sufficient for me; there is no deity except Him", reference: "Quran 9:129" },
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ", translation: "O Allah, I seek refuge in You from incapacity and laziness", reference: "Sahih Muslim 2722" },
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ", translation: "O Allah, I seek refuge in You from cowardice and miserliness", reference: "Sahih al-Bukhari 2823" }
+            ],
+            grateful: [
+                { text: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ", translation: "All praise is due to Allah, by whose favor good deeds are completed", reference: "Sunan Ibn Majah 3803" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ", translation: "My Lord, enable me to be grateful for Your favor which You have bestowed upon me", reference: "Quran 27:19" },
+                { text: "اللَّهُمَّ اجْعَلْنِي لَكَ شَكَّارًا", translation: "O Allah, make me one who is greatly thankful to You", reference: "Ahmad 7953" },
+                { text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", translation: "All praise is due to Allah, Lord of the worlds", reference: "Quran 1:2" }
+            ],
+            sad: [
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", translation: "O Allah, I seek refuge in You from anxiety and sorrow", reference: "Sahih al-Bukhari 6369" },
+                { text: "إِنَّمَا أَشْكُو بَثِّي وَحُزْنِي إِلَى اللَّهِ", translation: "I only complain of my suffering and my grief to Allah", reference: "Quran 12:86" },
+                { text: "اللَّهُمَّ أَذْهِبِ الْبَأْسَ رَبَّ النَّاسِ، اشْفِ أَنْتَ الشَّافِي", translation: "O Allah, remove the harm, Lord of mankind, heal for You are the Healer", reference: "Sahih al-Bukhari 5742" },
+                { text: "رَبِّ لَا تَذَرْنِي فَرْدًا وَأَنتَ خَيْرُ الْوَارِثِينَ", translation: "My Lord, do not leave me alone [childless], though You are the best of inheritors", reference: "Quran 21:89" }
+            ],
+            happy: [
+                { text: "الْحَمْدُ لِلَّهِ الَّذِي أَذْهَبَ عَنِّي الْحَزَنَ", translation: "All praise is due to Allah who has removed sadness from me", reference: "Sunan Abu Dawood 5065" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" },
+                { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ", translation: "O Allah, I ask You for well-being", reference: "Sunan Ibn Majah 3871" },
+                { text: "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ", translation: "O Allah, whatever blessing has been received by me or anyone of Your creation is from You alone, You have no partner", reference: "Abu Dawood 5073" }
+            ],
+            stressed: [
+                { text: "حَسْبِيَ اللَّهُ وَنِعْمَ الْوَكِيلُ", translation: "Allah is sufficient for me, and He is the best disposer of affairs", reference: "Quran 3:173" },
+                { text: "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا", translation: "O Allah, there is no ease except what You make easy", reference: "Ibn Hibban 2427" },
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", translation: "O Allah, I seek refuge in You from worry and grief", reference: "Sahih al-Bukhari 6369" },
+                { text: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ", translation: "O Allah, suffice me with what You have allowed instead of what You have forbidden", reference: "Tirmidhi 3563" }
+            ],
+            hopeful: [
+                { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", translation: "My Lord, expand for me my breast and ease for me my task", reference: "Quran 20:25-26" },
+                { text: "وَعَسَى أَنْ تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَكُمْ", translation: "Perhaps you dislike a thing and it is good for you", reference: "Quran 2:216" },
+                { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", translation: "Indeed, with hardship [will be] ease", reference: "Quran 94:6" },
+                { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رَحْمَتَكَ", translation: "O Allah, I ask You for Your mercy", reference: "Tirmidhi 3517" }
+            ],
+            afraid: [
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْجُبْنِ", translation: "O Allah, I seek refuge in You from cowardice", reference: "Sahih al-Bukhari 6369" },
+                { text: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", translation: "Allah is sufficient for us, and He is the best disposer of affairs", reference: "Quran 3:173" }
+            ],
+            lonely: [
+                { text: "اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ", translation: "O Allah, You are the Companion on the journey", reference: "Sunan Abu Dawood 5056" },
+                { text: "إِنِّي مَعَكُمَا أَسْمَعُ وَأَرَى", translation: "Indeed, I am with you [both]; I hear and I see", reference: "Quran 20:46" }
+            ],
+            angry: [
+                { text: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ", translation: "I seek refuge in Allah from the accursed Satan", reference: "Quran 16:98" },
+                { text: "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي وَأَذْهِبْ غَيْظَ قَلْبِي", translation: "O Allah, forgive my sin and remove the anger from my heart", reference: "Tirmidhi 3597" }
+            ],
+            tired: [
+                { text: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ", translation: "O Allah, protect me from Your punishment on the day You resurrect Your servants", reference: "Sunan Abu Dawood 5044" },
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ", translation: "O Allah, I seek refuge in You from incapacity and laziness", reference: "Sahih Muslim 2722" }
+            ],
+            confused: [
+                { text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا", translation: "Our Lord, do not let our hearts deviate after You have guided us", reference: "Quran 3:8" },
+                { text: "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي", translation: "O Allah, guide me and keep me steadfast", reference: "Sahih Muslim 2725" }
+            ],
+            peaceful: [
+                { text: "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ", translation: "O Allah, You are Peace and from You comes peace", reference: "Sahih Muslim 592" },
+                { text: "رَبَّنَا هَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً", translation: "Our Lord, grant us from Yourself mercy", reference: "Quran 18:10" }
+            ],
+            worried: [
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", translation: "O Allah, I seek refuge in You from worry and grief", reference: "Sahih al-Bukhari 6369" },
+                { text: "لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا", translation: "Do not grieve; indeed Allah is with us", reference: "Quran 9:40" }
+            ],
+            excited: [
+                { text: "الْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَٰذَا", translation: "All praise is due to Allah who has guided us to this", reference: "Quran 7:43" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            guilty: [
+                { text: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَكَفِّرْ عَنَّا سَيِّئَاتِنَا", translation: "Our Lord, forgive us our sins and erase our misdeeds", reference: "Quran 3:193" },
+                { text: "رَبَّنَا اغْفِرْ لِي وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ", translation: "Our Lord, forgive us and our brothers who preceded us in faith", reference: "Quran 59:10" }
+            ],
+            proud: [
+                { text: "اللَّهُمَّ لَا مَانِعَ لِمَا أَعْطَيْتَ وَلَا مُعْطِيَ لِمَا مَنَعْتَ", translation: "O Allah, there is none who can withhold what You give, and none may give what You have withheld", reference: "Sahih al-Bukhari 1120" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            envious: [
+                { text: "اللَّهُمَّ لَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا لِلَّذِينَ آمَنُوا", translation: "O Allah, do not place in our hearts any resentment toward those who have believed", reference: "Quran 59:10" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            ashamed: [
+                { text: "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", translation: "Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers", reference: "Quran 7:23" },
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخِزْيِ وَالنَّدَامَةِ فِي الدُّنْيَا وَالآخِرَةِ", translation: "O Allah, I seek refuge in You from disgrace and regret in this world and the Hereafter", reference: "Inspired by general duas" }
+            ],
+            insecure: [
+                { text: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", translation: "Allah is sufficient for us, and He is the best disposer of affairs", reference: "Quran 3:173" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            overwhelmed: [
+                { text: "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", translation: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers", reference: "Quran 21:87" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            content: [
+                { text: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ", translation: "All praise is due to Allah who has fed me this and provided it for me", reference: "Sunan Abu Dawood 4023" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            disappointed: [
+                { text: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ", translation: "Indeed we belong to Allah, and indeed to Him we will return", reference: "Quran 2:156" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            nervous: [
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", translation: "O Allah, I seek refuge in You from worry and grief", reference: "Sahih al-Bukhari 6369" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            relieved: [
+                { text: "الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي مِمَّا ابْتَلَاكَ بِهِ", translation: "All praise is due to Allah who has kept me safe from that with which He has tested you", reference: "Sahih al-Bukhari 6361" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            regretful: [
+                { text: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ", translation: "Our Lord, forgive us and our brothers who preceded us in faith", reference: "Quran 59:10" },
+                { text: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ", translation: "Our Lord, forgive us and our brothers who preceded us in faith", reference: "Quran 59:10" }
+            ],
+            inspired: [
+                { text: "رَبِّ زِدْنِي عِلْمًا", translation: "My Lord, increase me in knowledge", reference: "Quran 20:114" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            determined: [
+                { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا", translation: "O Allah, I ask You for beneficial knowledge", reference: "Sunan Ibn Majah 3843" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            patient: [
+                { text: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا", translation: "Our Lord, pour upon us patience", reference: "Quran 2:250" },
+                { text: "وَاصْبِرْ وَمَا صَبْرُكَ إِلَّا بِاللَّهِ", translation: "And be patient, and your patience is not but through Allah", reference: "Quran 16:127" }
+            ],
+            thankful: [
+                { text: "الْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَٰذَا وَمَا كُنَّا لِنَهْتَدِيَ لَوْلَا أَنْ هَدَانَا اللَّهُ", translation: "All praise is due to Allah who has guided us to this, and we would not have been guided if Allah had not guided us", reference: "Quran 7:43" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            blessed: [
+                { text: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا", translation: "O Allah, bless us in what You have provided us", reference: "Sahih al-Bukhari 5379" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            motivated: [
+                { text: "رَبِّ أَعِنِّي وَلَا تُعِنْ عَلَيَّ", translation: "My Lord, help me and do not help against me", reference: "Abu Dawood 1510" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            betrayed: [
+                { text: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", translation: "Allah is sufficient for us, and He is the best disposer of affairs", reference: "Quran 3:173" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            lost: [
+                { text: "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي", translation: "O Allah, guide me and keep me steadfast", reference: "Sahih Muslim 2725" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            loved: [
+                { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ وَحُبَّ مَنْ يُحِبُّكَ", translation: "O Allah, I ask You for Your love and the love of those who love You", reference: "Tirmidhi 3490" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            rejected: [
+                { text: "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", translation: "My Lord, indeed I am, for whatever good You would send down to me, in need", reference: "Quran 28:24" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            seekingforgiveness: [
+                { text: "رَبِّ اغْفِرْ وَارْحَمْ وَأَنْتَ خَيْرُ الرَّاحِمِينَ", translation: "My Lord, forgive and have mercy, and You are the best of the merciful", reference: "Quran 23:118" },
+                { text: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ", translation: "My Lord, forgive me and accept my repentance. Indeed, You are the Accepting of repentance, the Merciful", reference: "Quran 2:128" }
+            ],
+            seekingguidance: [
+                { text: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", translation: "Guide us to the straight path", reference: "Quran 1:6" },
+                { text: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي", translation: "My Lord, make me an establisher of prayer, and [many] from my descendants", reference: "Quran 14:40" }
+            ],
+            seekingknowledge: [
+                { text: "رَبِّ زِدْنِي عِلْمًا", translation: "My Lord, increase me in knowledge", reference: "Quran 20:114" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            hardship: [
+                { text: "رَبِّ إِنِّي مَغْلُوبٌ فَانْتَصِرْ", translation: "My Lord, indeed I am overpowered, so help me", reference: "Quran 54:10" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            injustice: [
+                { text: "اللَّهُمَّ أَعِنِّي عَلَى الظَّالِمِينَ", translation: "O Allah, help me against the wrongdoers", reference: "Inspired by Quran 29:30" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            temptation: [
+                { text: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شُرُورِ أَنْفُسِنَا", translation: "O Allah, I seek refuge in You from the evils of our souls", reference: "Inspired by Quran 12:53" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            seekingpatience: [
+                { text: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا", translation: "Our Lord, pour upon us patience", reference: "Quran 2:250" },
+                { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الصَّبْرَ وَالثَّبَاتَ", translation: "O Allah, I ask You for patience and steadfastness", reference: "Inspired by general duas" }
+            ],
+            seekingsuccess: [
+                { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً", translation: "Our Lord, give us in this world [that which is] good and in the Hereafter [that which is] good", reference: "Quran 2:201" },
+                { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً", translation: "Our Lord, give us in this world [that which is] good and in the Hereafter [that which is] good", reference: "Quran 2:201" }
+            ],
+            seekinghealing: [
+                { text: "اللَّهُمَّ اشْفِ أَنْتَ الشَّافِي", translation: "O Allah, heal [me], You are the Healer", reference: "Sahih al-Bukhari 5675" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            protectionfamily: [
+                { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ لَهُمُ الْعَافِيَةَ", translation: "O Allah, I ask You for well-being for them (my family)", reference: "Inspired by general duas" },
+                { text: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي", translation: "My Lord, make me an establisher of prayer, and [many] from my descendants", reference: "Quran 14:40" }
+            ],
+            repentant: [
+                { text: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ", translation: "My Lord, forgive me and accept my repentance. Indeed, You are the Accepting of repentance, the Merciful", reference: "Quran 2:128" },
+                { text: "اللَّهُمَّ إِنِّي أَسْتَغْفِرُكَ لِذَنْبِي وَأَسْأَلُكَ التَّوْبَةَ", translation: "O Allah, I seek Your forgiveness for my sin and I ask You for repentance", reference: "Inspired by general duas" }
+            ],
+            seekingmercy: [
+                { text: "رَبِّ ارْحَمْنِي", translation: "My Lord, have mercy on me", reference: "Quran 23:118" },
+                { text: "رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا", translation: "Our Lord, do not impose blame upon us if we forget or make a mistake", reference: "Quran 2:286" }
+            ],
+            protectionevil: [
+                { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", translation: "I seek refuge in the perfect words of Allah from the evil of what He has created", reference: "Sahih Muslim 2708" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            seekingrizq: [
+                { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا وَعِلْمًا نَافِعًا وَعَمَلًا مُتَقَبَّلًا", translation: "O Allah, I ask You for good, pure provision, beneficial knowledge, and accepted deeds", reference: "Ibn Majah 925" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            guidancefamily: [
+                { text: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي", translation: "My Lord, make me an establisher of prayer, and [many] from my descendants", reference: "Quran 14:40" },
+                { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ", translation: "Our Lord, grant us from among our wives and offspring comfort to our eyes", reference: "Quran 25:74" }
+            ],
+            relieffromdebt: [
+                { text: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ", translation: "O Allah, suffice me with what You have allowed instead of what You have forbidden, and make me independent of all others besides You", reference: "Tirmidhi 3563" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            goodend: [
+                { text: "اللَّهُمَّ اخْتِمْ لَنَا بِالسَّعَادَةِ", translation: "O Allah, grant us a good ending (in this life and the next)", reference: "Inspired by general duas" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            steadfastness: [
+                { text: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", translation: "O Turner of the hearts, make my heart firm upon Your religion", reference: "Tirmidhi 3522" },
+                { text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا", translation: "Our Lord, do not let our hearts deviate after You have guided us", reference: "Quran 3:8" }
+            ],
+            barakah: [
+                { text: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا", translation: "O Allah, bless us in what You have provided us", reference: "Sahih al-Bukhari 5379" },
+                { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ", translation: "My Lord, enable me to be grateful for Your favor", reference: "Quran 27:19" }
+            ],
+            forgivenessparents: [
+                { text: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", translation: "My Lord, forgive me and my parents, and have mercy upon them as they brought me up [when I was] small", reference: "Quran 17:24" },
+                { text: "اللَّهُمَّ ارْحَمْ وَالِدَيَّ كَمَا رَبَّيَانِي صَغِيرًا", translation: "O Allah, have mercy on my parents as they raised me when I was small", reference: "Inspired by general duas" }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const feelingContainers = document.querySelectorAll('.feeling-container');
+            const searchInput = document.getElementById('feelingSearch');
+
+            feelingContainers.forEach(container => {
+                const card = container.querySelector('.feeling-card');
+                const duaDisplay = container.querySelector('.dua-display');
+                const duaText = duaDisplay.querySelector('.dua-text');
+                const duaTranslation = duaDisplay.querySelector('.dua-translation');
+                const duaReference = duaDisplay.querySelector('.dua-reference');
+                // Add slider controls
+                let sliderControls = duaDisplay.querySelector('.dua-slider-controls');
+                if (!sliderControls) {
+                    sliderControls = document.createElement('div');
+                    sliderControls.className = 'dua-slider-controls';
+                    sliderControls.innerHTML = `
+                        <button class="dua-slider-arrow" aria-label="Previous Dua">&#8592;</button>
+                        <span class="dua-slider-index">1/1</span>
+                        <button class="dua-slider-arrow" aria-label="Next Dua">&#8594;</button>
+                    `;
+                    duaDisplay.insertBefore(sliderControls, duaText);
+                }
+                let currentIdx = 0;
+                function showDua(idx) {
+                    const feeling = card.dataset.feeling;
+                    const duaArr = feelings[feeling] || [];
+                    if (duaArr.length === 0) return;
+                    currentIdx = ((idx % duaArr.length) + duaArr.length) % duaArr.length;
+                    duaText.textContent = duaArr[currentIdx].text;
+                    duaTranslation.textContent = duaArr[currentIdx].translation;
+                    duaReference.textContent = duaArr[currentIdx].reference;
+                    // Show/hide slider controls based on dua count
+                    if (duaArr.length > 1) {
+                        sliderControls.style.display = '';
+                        sliderControls.querySelector('.dua-slider-index').textContent = `${currentIdx + 1}/${duaArr.length}`;
+                    } else {
+                        sliderControls.style.display = 'none';
+                    }
+                }
+                card.addEventListener('click', () => {
+                    const feeling = card.dataset.feeling;
+
+                    // Remove active class from all cards
+                    document.querySelectorAll('.feeling-card').forEach(c => c.classList.remove('active-card'));
+
+                    if (feelings[feeling]) {
+                        // Hide all dua displays
+                        document.querySelectorAll('.dua-display').forEach(d => d.classList.remove('show'));
+
+                        // Show the selected dua
+                        showDua(0);
+                        duaDisplay.classList.add('show');
+                        card.classList.add('active-card');
+                    }
+                });
+                sliderControls.querySelectorAll('.dua-slider-arrow')[0].addEventListener('click', e => {
+                    e.stopPropagation();
+                    showDua(currentIdx - 1);
+                });
+                sliderControls.querySelectorAll('.dua-slider-arrow')[1].addEventListener('click', e => {
+                    e.stopPropagation();
+                    showDua(currentIdx + 1);
+                });
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                feelingContainers.forEach(container => {
+                    const feeling = container.querySelector('h3').textContent.toLowerCase();
+                    container.style.display = feeling.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+        });
+
+    </script>
+
+        <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+    // Scroll-in animation for feeling cards
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.feeling-card');
+        cards.forEach(card => card.classList.add('fade-in-up-scroll'));
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        cards.forEach(card => observer.observe(card));
+    });
+    </script>
+
+</body>
+
+</html>

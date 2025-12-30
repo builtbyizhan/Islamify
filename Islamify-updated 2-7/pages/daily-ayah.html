@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Daily Ayah</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --title-color: #2c3e50;
+            --content-color: #666666;
+            --card-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+            --icon-color: #3498db;
+            --hero-bg: #f0f2f5;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --title-color: #ffffff;
+            --content-color: #b3b3b3;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --icon-color: #3498db;
+            --hero-bg: #2d2d2d;
+        }
+
+        .daily-ayah-page .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 20vh;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--hero-bg) 0%, var(--card-bg) 100%);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .daily-ayah-page .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .daily-ayah-page .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+            line-height: 1.2;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .daily-ayah-page .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0;
+            line-height: 1.5;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .ayah-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .ayah-text {
+            font-size: 2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            text-align: right;
+            direction: rtl;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        .ayah-translation {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--content-color);
+            margin-bottom: 2rem;
+        }
+
+        .ayah-reference {
+            font-size: 1.1rem;
+            color: var(--icon-color);
+            margin-bottom: 2rem;
+            font-weight: bold;
+        }
+
+        .ayah-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .copy-button {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        .share-button {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .refresh-button {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--content-color);
+        }
+
+        @media (max-width: 768px) {
+            .ayah-text {
+                font-size: 1.5rem;
+            }
+
+            .ayah-translation {
+                font-size: 1rem;
+            }
+
+            .ayah-actions {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="daily-ayah-page">
+       <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">Daily Ayah</h2>
+                <p class="hero-subtitle">Start your day with a verse from the Quran</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="ayah-container">
+                <div id="ayahContent">
+                    <div class="loading">Loading today's verse...</div>
+                </div>
+                <div class="ayah-actions">
+                    <button class="action-button copy-button" onclick="copyAyah()">
+                        <i class="fas fa-copy"></i>
+                        Copy
+                    </button>
+                    <button class="action-button share-button" onclick="shareAyah()">
+                        <i class="fas fa-share"></i>
+                        Share
+                    </button>
+                    <button class="action-button refresh-button" onclick="getDailyAyah()">
+                        <i class="fas fa-sync-alt"></i>
+                        New Verse
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+
+
+        // API Configuration
+        const API_BASE_URL = 'https://api.quran.com/api/v4';
+        let currentAyah = null;
+        let surahs = [];
+
+        // Fetch all surahs
+        async function fetchSurahs() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/chapters`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.chapters) {
+                    surahs = data.chapters;
+                }
+            } catch (error) {
+                console.error('Error fetching surahs:', error);
+            }
+        }
+
+        // Get surah name by ID
+        function getSurahName(chapterId) {
+            const surah = surahs.find(s => s.id === chapterId);
+            return surah ? surah.name_simple : `Surah ${chapterId}`;
+        }
+
+        // Get a random verse from the Quran
+        async function getDailyAyah() {
+            const ayahContent = document.getElementById('ayahContent');
+            ayahContent.innerHTML = '<div class="loading">Loading verse...</div>';
+
+            try {
+                // First ensure we have surahs data
+                if (surahs.length === 0) {
+                    await fetchSurahs();
+                }
+
+                // Get random verse with Arabic text
+                const response = await fetch(`${API_BASE_URL}/verses/random?language=en&translations=20&fields=text_uthmani,chapter_id,verse_number,text`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                if (data.verse) {
+                    currentAyah = data.verse;
+                    displayAyah(currentAyah);
+                }
+            } catch (error) {
+                console.error('Error fetching verse:', error);
+                ayahContent.innerHTML = `
+                    <div class="loading">
+                        <p>Error loading verse. Please try again.</p>
+                        <p class="error-details">${error.message}</p>
+                    </div>`;
+            }
+        }
+
+        // Display the ayah
+        function displayAyah(verse) {
+            const ayahContent = document.getElementById('ayahContent');
+            const surah = surahs.find(s => s.id === verse.chapter_id);
+            const surahName = surah ? surah.name_simple : `Surah ${verse.chapter_id}`;
+            const surahNameArabic = surah ? surah.name_arabic : `سورة ${verse.chapter_id}`;
+            let translation = '<em>No translation available.</em>';
+            if (verse.translations && verse.translations.length > 0) {
+                // Prefer the first translation, but fallback to any available
+                translation = verse.translations.find(t => t.text) ? verse.translations.find(t => t.text).text : verse.translations[0].text;
+            }
+            ayahContent.innerHTML = `
+                <div class="ayah-text">${verse.text_uthmani || verse.text}</div>
+                <div class="ayah-translation">${translation}</div>
+                <div class="ayah-reference">${surahNameArabic} (${surahName}) ${verse.verse_number}</div>
+            `;
+        }
+
+        // Copy ayah to clipboard
+        async function copyAyah() {
+            if (!currentAyah) return;
+
+            const surah = surahs.find(s => s.id === currentAyah.chapter_id);
+            const surahName = surah ? surah.name_simple : `Surah ${currentAyah.chapter_id}`;
+            const surahNameArabic = surah ? surah.name_arabic : `سورة ${currentAyah.chapter_id}`;
+
+            const text = `${currentAyah.text_uthmani || currentAyah.text}\n\n${currentAyah.translations[0].text}\n\n- ${surahNameArabic} (${surahName}) ${currentAyah.verse_number}`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Verse copied to clipboard!');
+            });
+        }
+
+        // Share ayah
+        async function shareAyah() {
+            if (!currentAyah) return;
+
+            const surah = surahs.find(s => s.id === currentAyah.chapter_id);
+            const surahName = surah ? surah.name_simple : `Surah ${currentAyah.chapter_id}`;
+            const surahNameArabic = surah ? surah.name_arabic : `سورة ${currentAyah.chapter_id}`;
+
+            const text = `${currentAyah.text_uthmani || currentAyah.text}\n\n${currentAyah.translations[0].text}\n\n- ${surahNameArabic} (${surahName}) ${currentAyah.verse_number}`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: `${surahNameArabic} (${surahName}) ${currentAyah.verse_number}`,
+                    text: text
+                });
+            } else {
+                alert('Sharing is not supported in your browser');
+            }
+        }
+
+        // Initialize the page
+        fetchSurahs().then(() => {
+            getDailyAyah();
+        });
+
+        function toggleNav() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('open');
+        }
+    </script>
+
+    <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Story of Prophet Ibrahim</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+
+        .container {
+            flex: 1 0 auto;
+        }
+
+        .site-footer {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .story-title {
+            font-size: 2.5rem;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .story-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .story-section {
+            margin-bottom: 2rem;
+        }
+
+        .story-section h3 {
+            color: var(--title-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .story-section p {
+            color: var(--content-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .verse-container {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .verse-arabic {
+            font-size: 1.5rem;
+            text-align: right;
+            direction: rtl;
+            margin-bottom: 1rem;
+            line-height: 2;
+        }
+
+        .verse-translation {
+            color: var(--content-color);
+            line-height: 1.6;
+        }
+
+        .verse-number {
+            color: var(--icon-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--icon-color);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 2rem auto;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: var(--icon-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 2rem;
+            }
+
+            .story-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .story-content {
+                padding: 1.5rem;
+            }
+
+            .verse-arabic {
+                font-size: 1.3rem;
+            }
+        }
+
+       
+    </style>
+</head>
+
+<body class="story-page">
+        <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="story-header">
+            <h1 class="story-title">The Story of Prophet Ibrahim</h1>
+            <p class="story-subtitle">A journey of faith, sacrifice, and submission to Allah</p>
+        </div>
+
+        <div class="story-content">
+            <div class="story-section">
+                <h3>Introduction</h3>
+                <p>Prophet Ibrahim (Abraham) is known as the "Friend of Allah" and is considered one of the greatest
+                    prophets. His story is a testament to unwavering faith and complete submission to Allah's will.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah An-Nisa, Verse 125</div>
+                    <div class="verse-arabic">وَمَنْ أَحْسَنُ دِينًا مِّمَّنْ أَسْلَمَ وَجْهَهُ لِلَّهِ وَهُوَ مُحْسِنٌ
+                        وَاتَّبَعَ مِلَّةَ إِبْرَاهِيمَ حَنِيفًا ۗ وَاتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا</div>
+                    <div class="verse-translation">"And who is better in religion than one who submits himself to Allah
+                        while being a doer of good and follows the religion of Abraham, inclining toward truth? And
+                        Allah took Abraham as an intimate friend."</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>Search for the Truth</h3>
+                <p>Ibrahim's journey began with his search for the true God. He rejected the worship of idols and
+                    celestial bodies, using his intellect to understand the true nature of divinity.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-An'am, Verse 76-79</div>
+                    <div class="verse-arabic">فَلَمَّا جَنَّ عَلَيْهِ اللَّيْلُ رَأَىٰ كَوْكَبًا ۖ قَالَ هَٰذَا رَبِّي ۖ
+                        فَلَمَّا أَفَلَ قَالَ لَا أُحِبُّ الْآفِلِينَ * فَلَمَّا رَأَى الْقَمَرَ بَازِغًا قَالَ هَٰذَا
+                        رَبِّي ۖ فَلَمَّا أَفَلَ قَالَ لَئِن لَّمْ يَهْدِنِي رَبِّي لَأَكُونَنَّ مِنَ الْقَوْمِ
+                        الضَّالِّينَ * فَلَمَّا رَأَى الشَّمْسَ بَازِغَةً قَالَ هَٰذَا رَبِّي هَٰذَا أَكْبَرُ ۖ فَلَمَّا
+                        أَفَلَتْ قَالَ يَا قَوْمِ إِنِّي بَرِيءٌ مِّمَّا تُشْرِكُونَ * إِنِّي وَجَّهْتُ وَجْهِي لِلَّذِي
+                        فَطَرَ السَّمَاوَاتِ وَالْأَرْضَ حَنِيفًا ۖ وَمَا أَنَا مِنَ الْمُشْرِكِينَ</div>
+                    <div class="verse-translation">"When the night covered him [with darkness], he saw a star. He said,
+                        'This is my lord.' But when it set, he said, 'I like not those that disappear.' * And when he
+                        saw the moon rising, he said, 'This is my lord.' But when it set, he said, 'Unless my Lord
+                        guides me, I will surely be among the people gone astray.' * And when he saw the sun rising, he
+                        said, 'This is my lord; this is greater.' But when it set, he said, 'O my people, indeed I am
+                        free from what you associate with Allah.' * Indeed, I have turned my face toward He who created
+                        the heavens and the earth, inclining toward truth, and I am not of those who associate others
+                        with Allah."</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>Confrontation with His People</h3>
+                <p>Ibrahim challenged his people's idol worship and demonstrated the futility of their beliefs by
+                    destroying their idols, leaving only the largest one intact.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Anbiya, Verse 58</div>
+                    <div class="verse-arabic">فَجَعَلَهُمْ جُذَاذًا إِلَّا كَبِيرًا لَّهُمْ لَعَلَّهُمْ إِلَيْهِ
+                        يَرْجِعُونَ</div>
+                    <div class="verse-translation">"So he made them into fragments, except a large one among them, that
+                        they might return to it [and question]."</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>The Trial of Fire</h3>
+                <p>When his people discovered what he had done, they threw him into a great fire. But Allah commanded
+                    the fire to be cool and safe for Ibrahim.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Anbiya, Verse 69</div>
+                    <div class="verse-arabic">قُلْنَا يَا نَارُ كُونِي بَرْدًا وَسَلَامًا عَلَىٰ إِبْرَاهِيمَ</div>
+                    <div class="verse-translation">"We said, 'O fire, be coolness and safety upon Abraham.'"</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>Building the Kaaba</h3>
+                <p>Ibrahim, along with his son Ismail, built the Kaaba in Makkah as a house of worship for Allah. This
+                    became the focal point for Muslims around the world.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Baqarah, Verse 127</div>
+                    <div class="verse-arabic">وَإِذْ يَرْفَعُ إِبْرَاهِيمُ الْقَوَاعِدَ مِنَ الْبَيْتِ وَإِسْمَاعِيلُ
+                        رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ</div>
+                    <div class="verse-translation">"And when Abraham and Ishmael were raising the foundations of the
+                        House, [Abraham prayed], 'Our Lord, accept [this] from us. Indeed You are the Hearing, the
+                        Knowing.'"</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>The Ultimate Sacrifice</h3>
+                <p>Ibrahim's greatest test came when Allah commanded him to sacrifice his beloved son Ismail. Both
+                    father and son demonstrated complete submission to Allah's will.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah As-Saffat, Verse 102</div>
+                    <div class="verse-arabic">فَلَمَّا بَلَغَ مَعَهُ السَّعْيَ قَالَ يَا بُنَيَّ إِنِّي أَرَىٰ فِي
+                        الْمَنَامِ أَنِّي أَذْبَحُكَ فَانظُرْ مَاذَا تَرَىٰ ۚ قَالَ يَا أَبَتِ افْعَلْ مَا تُؤْمَرُ ۖ
+                        سَتَجِدُنِي إِن شَاءَ اللَّهُ مِنَ الصَّابِرِينَ</div>
+                    <div class="verse-translation">"And when he reached with him [the age of] exertion, he said, 'O my
+                        son, indeed I have seen in a dream that I [must] sacrifice you, so see what you think.' He said,
+                        'O my father, do as you are commanded. You will find me, if Allah wills, of the steadfast.'"
+                    </div>
+                </div>
+            </div>
+
+            <a href="quran-stories.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back to Stories
+            </a>
+        </div>
+    </div>
+
+
+    <!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+
+</body>
+
+</html>

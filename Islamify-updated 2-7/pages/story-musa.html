@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Story of Prophet Musa</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        /* Fix for footer positioning */
+      
+        .container {
+            flex: 1 0 auto;
+        }
+
+        .site-footer {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+
+        .story-page {
+            padding: 2rem 0;
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .story-title {
+            font-size: 2.5rem;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .story-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .story-section {
+            margin-bottom: 2rem;
+        }
+
+        .story-section h3 {
+            color: var(--title-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .story-section p {
+            color: var(--content-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .verse-container {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .verse-arabic {
+            font-size: 1.5rem;
+            text-align: right;
+            direction: rtl;
+            margin-bottom: 1rem;
+            line-height: 2;
+        }
+
+        .verse-translation {
+            color: var(--content-color);
+            line-height: 1.6;
+        }
+
+        .verse-number {
+            color: var(--icon-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--icon-color);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 2rem auto;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: var(--icon-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .story-title {
+                font-size: 2rem;
+            }
+
+            .story-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .story-content {
+                padding: 1.5rem;
+            }
+
+            .verse-arabic {
+                font-size: 1.3rem;
+            }
+        }
+
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--theme-toggle-bg);
+            border: 2px solid var(--navbar-text);
+            color: var(--navbar-text);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-left: 1rem;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--navbar-text);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        .theme-toggle i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover i {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle span {
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover span {
+            transform: translateX(2px);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 0.75rem;
+            }
+
+            .theme-toggle {
+                margin: 1rem 0 0 0;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="story-page">
+       <!-- NAVBAR -->
+    <div class="sticky-wrapper">
+        <nav class="navbar navbar-expand-lg sticky-top shadow-sm mx-auto px-4 py-2 custom-navbar">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <img src="../IMAGE/logoforlight.png" alt="Logo Light" height="40" width="auto"
+                        class="logo logo-light" />
+                    <img src="../IMAGE/logofordark.png" alt="Logo Dark" height="40" width="auto" class="logo logo-dark" />
+                </a>
+
+
+                <!-- Toggler for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible menu -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                    <ul class="navbar-nav align-items-lg-center text-center text-lg-start">
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/pillars.html">Five Pillars</a>
+                        </li>
+
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/quran.html">Quran</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/history.html">History</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/feelings.html">I'm Feeling</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a class="nav-link" href="../pages/calender.html">Calendar</a>
+                        </li>
+
+                        <li class="nav-item d-flex align-items-center px-2">
+                            <label class="dark-toggle-label">
+                                <input id="darkToggle" class="toggle-checkbox" type="checkbox" />
+                                <div class="toggle-slot">
+                                    <div class="sun-icon-wrapper">
+                                        <div class="iconify sun-icon" data-icon="feather-sun"></div>
+                                    </div>
+                                    <div class="toggle-button"></div>
+                                    <div class="moon-icon-wrapper">
+                                        <div class="iconify moon-icon" data-icon="feather-moon"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="story-header">
+            <h1 class="story-title">The Story of Prophet Musa</h1>
+            <p class="story-subtitle">A journey of faith, courage, and divine guidance</p>
+        </div>
+
+        <div class="story-content">
+            <div class="story-section">
+                <h3>Introduction</h3>
+                <p>The story of Prophet Musa (Moses) is one of the most frequently mentioned stories in the Quran. It's
+                    a story of divine intervention, faith, and the struggle against oppression.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Qasas, Verse 3</div>
+                    <div class="verse-arabic">نَتْلُو عَلَيْكَ مِن نَّبَإِ مُوسَىٰ وَفِرْعَوْنَ بِالْحَقِّ لِقَوْمٍ
+                        يُؤْمِنُونَ</div>
+                    <div class="verse-translation">"We recite to you from the news of Moses and Pharaoh in truth for a
+                        people who believe."</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>Birth and Early Life</h3>
+                <p>Musa was born during a time when Pharaoh was killing all male children of the Children of Israel. His
+                    mother, following divine inspiration, placed him in a basket and set it adrift on the Nile River.
+                </p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Qasas, Verse 7</div>
+                    <div class="verse-arabic">وَأَوْحَيْنَا إِلَىٰ أُمِّ مُوسَىٰ أَنْ أَرْضِعِيهِ ۖ فَإِذَا خِفْتِ
+                        عَلَيْهِ فَأَلْقِيهِ فِي الْيَمِّ وَلَا تَخَافِي وَلَا تَحْزَنِي ۖ إِنَّا رَادُّوهُ إِلَيْكِ
+                        وَجَاعِلُوهُ مِنَ الْمُرْسَلِينَ</div>
+                    <div class="verse-translation">"And We inspired to the mother of Moses, 'Suckle him; but when you
+                        fear for him, cast him into the river and do not fear and do not grieve. Indeed, We will return
+                        him to you and will make him [one] of the messengers.'"</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>Growing Up in Pharaoh's Palace</h3>
+                <p>Musa was found by Pharaoh's family and raised in the palace. Despite growing up in luxury, he never
+                    forgot his true identity and always stood for justice.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Qasas, Verse 14</div>
+                    <div class="verse-arabic">وَلَمَّا بَلَغَ أَشُدَّهُ وَاسْتَوَىٰ آتَيْنَاهُ حُكْمًا وَعِلْمًا ۚ
+                        وَكَذَٰلِكَ نَجْزِي الْمُحْسِنِينَ</div>
+                    <div class="verse-translation">"And when he attained his full strength and was [mentally] mature, We
+                        bestowed upon him judgement and knowledge. And thus do We reward the doers of good."</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>Flight to Madyan</h3>
+                <p>After accidentally killing an Egyptian, Musa fled to Madyan where he helped two women water their
+                    flock and was eventually married to one of them.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Qasas, Verse 28</div>
+                    <div class="verse-arabic">قَالَ إِنِّي أُرِيدُ أَنْ أُنكِحَكَ إِحْدَى ابْنَتَيَّ هَاتَيْنِ عَلَىٰ
+                        أَن تَأْجُرَنِي ثَمَانِيَ حِجَجٍ ۖ فَإِنْ أَتْمَمْتَ عَشْرًا فَمِنْ عِندِكَ ۖ وَمَا أُرِيدُ أَنْ
+                        أَشُقَّ عَلَيْكَ ۚ سَتَجِدُنِي إِن شَاءَ اللَّهُ مِنَ الصَّالِحِينَ</div>
+                    <div class="verse-translation">"He said, 'Indeed, I wish to wed you one of these, my two daughters,
+                        on [the condition] that you serve me for eight years; but if you complete ten, it will be [as a
+                        favor] from you. And I do not wish to put you in difficulty. You will find me, if Allah wills,
+                        from the righteous.'"</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>Prophethood and Confrontation with Pharaoh</h3>
+                <p>Musa was chosen by Allah to deliver His message to Pharaoh and free the Children of Israel from
+                    oppression. With his brother Harun (Aaron) by his side, he performed miracles and called Pharaoh to
+                    the truth.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Ta-Ha, Verse 47</div>
+                    <div class="verse-arabic">فَأْتِيَاهُ فَقُولَا إِنَّا رَسُولَا رَبِّكَ فَأَرْسِلْ مَعَنَا بَنِي
+                        إِسْرَائِيلَ وَلَا تُعَذِّبْهُمْ ۖ قَدْ جِئْنَاكَ بِآيَةٍ مِّن رَّبِّكَ ۖ وَالسَّلَامُ عَلَىٰ
+                        مَنِ اتَّبَعَ الْهُدَىٰ</div>
+                    <div class="verse-translation">"So go to him and say, 'Indeed, we are messengers of your Lord, so
+                        send with us the Children of Israel and do not torment them. We have come to you with a sign
+                        from your Lord. And peace will be upon he who follows the guidance.'"</div>
+                </div>
+            </div>
+
+            <div class="story-section">
+                <h3>The Exodus and Crossing the Sea</h3>
+                <p>After Pharaoh refused to believe, Allah guided Musa and the Children of Israel to escape. When
+                    Pharaoh pursued them, Allah parted the sea, allowing them to cross safely while drowning Pharaoh and
+                    his army.</p>
+
+                <div class="verse-container">
+                    <div class="verse-number">Surah Ash-Shu'ara, Verse 63</div>
+                    <div class="verse-arabic">فَأَوْحَيْنَا إِلَىٰ مُوسَىٰ أَنِ اضْرِب بِّعَصَاكَ الْبَحْرَ ۖ فَانفَلَقَ
+                        فَكَانَ كُلُّ فِرْقٍ كَالطَّوْدِ الْعَظِيمِ</div>
+                    <div class="verse-translation">"Then We inspired to Moses, 'Strike with your staff the sea,' and it
+                        parted, and each portion was like a great towering mountain."</div>
+                </div>
+            </div>
+
+            <a href="quran-stories.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back to Stories
+            </a>
+        </div>
+    </div>
+
+<!-- FOOTER START -->
+ <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+
+                <!-- Logo Section -->
+                <div class="footer-section footer-logo-section">
+                    <a class="footer-logo d-flex align-items-center justify-content-start" href="#">
+                        <img src="../IMAGE/logoforlight.png" alt="Logo Light" class="logo logo-light" />
+                        <img src="../IMAGE/logofordark.png" alt="Logo Dark" class="logo logo-dark" />
+                    </a>
+                    <p class="footer-description">
+                        Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for
+                        Muslims worldwide.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                        <li><a href="calender.html">Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section contact-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2025</span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-and-conditions.html">Terms of Service</a>
+                    <a href="feedback.html">Feedback</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- FOOTER END -->
+    <style>
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .footer-section {
+                text-align: center;
+            }
+
+            .contact-info li {
+                justify-content: center;
+            }
+        }
+    </style>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+
+</body>
+
+</html>
